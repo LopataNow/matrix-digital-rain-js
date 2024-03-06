@@ -11,28 +11,8 @@ class StreamBuilder{
       speed: 6 + Math.random() * 20,
       sybolsCount: Math.round(6 + Math.random() * 14),
       opacity: Math.round(155 + Math.random() * 100),
-      streamBuilder: this,
     });
   }
-
-  getRandomSymbol() {
-    var charType = Math.random() * 5;
-
-    if (charType > 1) {
-      return String.fromCharCode(0x30A0 + Math.floor(Math.random() * 97));
-    } else {
-      return Math.floor(Math.random() * 10).toString();
-    }
-  }
-
-  getRandomY(minY = 0, maY = window.innerHeight / 3) {
-    return Math.random() * (maY - minY) + minY;
-  }
-
-  getRandomInterval(){
-    return Math.round(15 + Math.random() * 30);
-  }
-
 }
 
 class StreamsManager{
@@ -60,14 +40,13 @@ class Stream {
   symbols = [];
   intervals = [];
 
-  constructor({x = 0, y = 0, speed = 5, opacity = 255, sybolsCount = 5, streamBuilder = new StreamBuilder()}) {
+  constructor({x = 0, y = 0, speed = 5, opacity = 255, sybolsCount = 5}) {
     this.x = x;
     this.y = y;
     this.speed = speed;
     this.opacity = opacity;
     this.symbolsCount = (sybolsCount > 0) ? sybolsCount : 5;
     this.leght = this.symbolsCount  *  symbolSize;
-    this.streamBuilder = streamBuilder;
     for (var index = 0; index <= this.symbolsCount; index++) {
       this.symbols.push('');
       this.intervals.push(0);
@@ -75,17 +54,35 @@ class Stream {
     this.initSymbols();
   }
 
+  getRandomSymbol() {
+    var charType = Math.random() * 5;
+
+    if (charType > 1) {
+      return String.fromCharCode(0x30A0 + Math.floor(Math.random() * 97));
+    } else {
+      return Math.floor(Math.random() * 10).toString();
+    }
+  }
+
+  getRandomY(minY = 0, maY = window.innerHeight / 3) {
+    return Math.random() * (maY - minY) + minY;
+  }
+
+  getRandomInterval(){
+    return Math.round(15 + Math.random() * 30);
+  }
+
   initSymbols() {
     for (var index = 0; index <= this.symbolsCount; index++) {
-      this.symbols[index] = this.streamBuilder.getRandomSymbol();
-      this.intervals[index] = this.streamBuilder.getRandomInterval();
+      this.symbols[index] = this.getRandomSymbol();
+      this.intervals[index] = this.getRandomInterval();
     }
   }
 
   generateUpdateSymbols(p) {
     this.intervals.forEach((interval, index) => {
       if (p.frameCount % interval === 0) {
-        this.symbols[index] = this.streamBuilder.getRandomSymbol();
+        this.symbols[index] = this.getRandomSymbol();
       }
     });
   }
@@ -93,7 +90,7 @@ class Stream {
   update(p) {
     this.y += this.speed  * p.deltaTime * 0.01;
     if (this.y > window.innerHeight + this.leght) {
-      this.y = this.streamBuilder.getRandomY(-window.innerHeight / 3, 0);
+      this.y = this.getRandomY(-window.innerHeight / 3, 0);
     }
 
     this.generateUpdateSymbols(p);
