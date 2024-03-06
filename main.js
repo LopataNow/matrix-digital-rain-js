@@ -2,6 +2,7 @@ import './style.css';
 import p5 from 'p5';
 
 const symbolSize = 16;
+const spaceBetweenSymbols = 7;
 
 class StreamsManager{
   streams = [];
@@ -11,8 +12,8 @@ class StreamsManager{
         x: index * symbolSize,
         y: Math.random() * -window.innerHeight,
         speed: 3 + Math.random() * 20,
-        sybolsCount: Math.round(4 + Math.random() * 14),
-        opacity: Math.round(100 + Math.random() * 155)
+        sybolsCount: Math.round(6 + Math.random() * 14),
+        opacity: Math.round(155 + Math.random() * 100)
       }));
     }
   }
@@ -38,7 +39,7 @@ class Stream {
     this.speed = speed;
     this.opacity = opacity;
     this.symbolsCount = (sybolsCount > 0) ? sybolsCount : 5;
-    this.leght = this.symbolsCount  * symbolSize;
+    this.leght = this.symbolsCount  *  (symbolSize + spaceBetweenSymbols);
     for (var index = 0; index <= this.symbolsCount; index++) {
       this.symbols.push('');
       this.intervals.push(0);
@@ -86,9 +87,9 @@ class Stream {
     
     let color = p.color(0, 255, 70);
     for (var index = 1; index < this.symbols.length; index++) {
-      color.setAlpha(this.opacity - index * 8);
+      color.setAlpha(this.opacity - index * 12);
       p.fill(color);
-      p.text(this.symbols[index], this.x, this.y - index * 20);
+      p.text(this.symbols[index], this.x, this.y - index * symbolSize + spaceBetweenSymbols);
     }
   }
 }
