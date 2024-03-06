@@ -4,9 +4,9 @@ import p5 from 'p5';
 const symbolSize = 14;
 
 class StreamBuilder{
-  createNewStream({x}) {
+  createNewStream({x = 0}) {
     return new Stream({
-      x: x | 0,
+      x: x,
       y: Math.random() * -window.innerHeight / 3,
       speed: 6 + Math.random() * 20,
       sybolsCount: Math.round(6 + Math.random() * 14),
@@ -21,7 +21,7 @@ class StreamBuilder{
     if (charType > 1) {
       return String.fromCharCode(0x30A0 + Math.floor(Math.random() * 97));
     } else {
-      return Math.floor(Math.random(0,10));
+      return Math.floor(Math.random() * 10).toString();
     }
   }
 
