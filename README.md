@@ -6,3 +6,6 @@ Simple Matrix Digital Rain effect in Javascrip
 npm run dev
 npm run build
 ```
+
+## Link
+https://main--matrix-digital-rain.netlify.app/
